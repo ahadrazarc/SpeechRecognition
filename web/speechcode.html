@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech Command Mapping</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <h2>Define Your Voice Command Mappings</h2>
+
+    <form id="commandForm">
+        <div>
+            <label for="command1">Command 1:</label>
+            <input type="text" id="command1" class="command-input" placeholder="Enter voice command">
+            <input type="text" id="key1" class="key-input" placeholder="Enter key to press">
+        </div>
+        <div>
+            <label for="command2">Command 2:</label>
+            <input type="text" id="command2" class="command-input" placeholder="Enter voice command">
+            <input type="text" id="key2" class="key-input" placeholder="Enter key to press">
+        </div>
+        <div>
+            <label for="command3">Command 3:</label>
+            <input type="text" id="command3" class="command-input" placeholder="Enter voice command">
+            <input type="text" id="key3" class="key-input" placeholder="Enter key to press">
+        </div>
+        <div>
+            <label for="command4">Command 4:</label>
+            <input type="text" id="command4" class="command-input" placeholder="Enter voice command">
+            <input type="text" id="key4" class="key-input" placeholder="Enter key to press">
+        </div>
+        <div>
+            <label for="command5">Command 5:</label>
+            <input type="text" id="command5" class="command-input" placeholder="Enter voice command">
+            <input type="text" id="key5" class="key-input" placeholder="Enter key to press">
+        </div>
+        <button type="button" onclick="startSpeechRecognition()">Start Speech Recognition</button>
+    </form>
+
+    <script type="text/javascript">
+        function startSpeechRecognition() {
+            let commandDict = {};
+
+            let commandInputs = document.querySelectorAll('.command-input');
+            let keyInputs = document.querySelectorAll('.key-input');
+
+            commandInputs.forEach((commandInput, index) => {
+                let command = commandInput.value.trim().toLowerCase();
+                let key = keyInputs[index].value.trim().toLowerCase();
+                if (command && key) {
+                    commandDict[command] = key;
+                }
+            });
+
+            // Log the command dictionary to see what is being sent
+            console.log("Command Dictionary: ", commandDict);
+
+            // Send the user-defined command-to-key mappings to the Python backend via Eel
+            eel.valuespeech(commandDict);
+        }
+    </script>
+
+    <!-- Include Eel JS -->
+    <script type="text/javascript" src="/eel.js"></script>
+</body>
+</html>
